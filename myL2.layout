@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout >
+    <Window Type="TaharezLook/FrameWindow" Name="MainMenuRoot" >
+        <Property Name="Text" Value="Main Menu!" />
+        <Property Name="TitlebarFont" Value="DejaVuSans-10" />
+        <Property Name="TitlebarEnabled" Value="True" />
+        <Property Name="UnifiedAreaRect" Value="{{0.4021,0},{0.261609,0},{0.629821,0},{0.67421,0}}" />
+        <Window Type="TaharezLook/Button" Name="MainMenuRoot/NetClient" >
+            <Property Name="Text" Value="Start Client" />
+            <Property Name="UnifiedAreaRect" Value="{{0.172183,0},{0.240934,0},{0.836177,0},{0.372568,0}}" />
+        </Window>
+        <Window Type="TaharezLook/Editbox" Name="ConsoleRoot/EditBox" >
+            <Property Name="Text" Value="Number of players" />
+            <Property Name="MaxTextLength" Value="1073741823" />
+            <Property Name="UnifiedAreaRect" Value="{{0.107888,0},{0.730337,0},{0.936878,0},{0.859701,0}}" />
+            <Property Name="TextParsingEnabled" Value="False" />
+        </Window>
+        <Window Type="TaharezLook/Button" Name="MainMenuRoot/NetServer" >
+            <Property Name="Text" Value="Start Server" />
+            <Property Name="UnifiedAreaRect" Value="{{0.162518,0},{0.0536911,0},{0.834637,0},{0.199791,0}}" />
+        </Window>
+        <Window Type="TaharezLook/Button" Name="MainMenuRoot/LocalGame" >
+            <Property Name="Text" Value="Local Game:" />
+            <Property Name="UnifiedAreaRect" Value="{{0.184212,0},{0.537835,0},{0.828748,0},{0.68213,0}}" />
+        </Window>
+    </Window>
+</GUILayout>
