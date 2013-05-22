@@ -4,7 +4,6 @@
 #include <OgreEntity.h>
 #include <OgreSceneManager.h>
 
-//#include "../Character/Character.h"
 #include "../RenderableMovingObject.h"
 #include "../CollisionObject.h"
 #include "../../../Sound/Engine/SoundEngine.h"
@@ -13,11 +12,16 @@
 #include <OgreMovableObject.h>
 #include <OgreAny.h>
 
-//Class that represents the player in the game
+/*
+	RenderableChar class represents a Player. A Player can be controlled locally (keyboard) or from a network using RPC.
+	RenderableChar is of course a RenderableMovingObject.
+*/
+
 class RenderableChar 
 	: public RenderableMovingObject
 {
 public:
+	// State type is used mainly for deciding the animation
 	enum STATE_TYPE {WALKING, JUMPING, IDLE, DEAD, SPAWNING};
 
 	RenderableChar(Ogre::Vector3 pos, Ogre::Vector3 scale, Ogre::SceneManager* smptr, Ogre::String name);
@@ -33,27 +37,32 @@ public:
 	void updateAnimation (float dtime);
 	Ogre::String GetName();
 
-	inline Ogre::String GetNetworkName(){
+	inline Ogre::String GetNetworkName()
+	{
 		return networkName;
 	}
 
-	//Set current charachter state
-	inline void SetState(STATE_TYPE state){
+	// Set current charachter state
+	inline void SetState(STATE_TYPE state)
+	{
 		charstate = state;
 	}
 
-	//Set ogre world position
-	inline void SetPosition(Ogre::Vector3 newPos){
+	// Set ogre world position
+	inline void SetPosition(Ogre::Vector3 newPos)
+	{
 		mMainNode->setPosition(newPos);
 	}
 
-	//Set name
-	inline void SetName(Ogre::String newName){
+	// Set name
+	inline void SetName(Ogre::String newName)
+	{
 		mCharName = newName;
 	}
 
 	//Set the network name
-	inline void SetNetworkName(Ogre::String newName){
+	inline void SetNetworkName(Ogre::String newName)
+	{
 		networkName = newName;
 	}
 
@@ -63,25 +72,25 @@ public:
 		mMainNode->setVisible(visible);
 	}
 
-	//Sets the friction cooficient
+	// Sets the friction coefficient
 	inline void setFriction(float nf)
 	{
 		friction = nf;
 	}
 
-	//Get the character state
+	// Get the character state
 	inline STATE_TYPE getCharState()
 	{
 		return charstate;
 	}
 
-	//Sets the character state
+	// Sets the character state
 	inline void setCharState(STATE_TYPE newtype)
 	{
 		charstate = newtype;
 	}
 
-	//Performs the actual jump
+	// Performs the actual jump
 	inline void performJump(float k)
 	{
 		if (charstate != JUMPING) {
@@ -90,7 +99,7 @@ public:
 		}
 	}
 
-	// Get this object correct boundingBox
+	//  Get this object correct boundingBox
 	inline Ogre::AxisAlignedBox getAABB()
 	{
 		return myEntity->getWorldBoundingBox(true);
@@ -102,7 +111,7 @@ public:
 		return myEntity->getWorldBoundingSphere();
 	}
 	
-	//Collision callbacks
+	// Collision callbacks
 	inline virtual void onCollisionFromAbove(CollisionObject* other);
 
 	inline virtual void onCollisionFromBelow(CollisionObject* other);
@@ -114,13 +123,15 @@ public:
 
 	}
 
+	// This 
 	inline virtual void onCollisionFromRight(CollisionObject* other)
 	{
 		if(other->getCollisionType() == COLLISION_OBJECT_PLAYER )
 			std::cout << "Colliding Right" << std::endl; 
 	}
 
-	inline float GetDTime(){
+	inline float GetDTime()
+	{
 		return mAnimationState->getTimePosition();
 	}
 
@@ -129,18 +140,18 @@ protected:
 	Ogre::String mCharName;
 	Ogre::String networkName;
 	Ogre::AnimationState *mAnimationState;
-	//Ogre::Vector3 mDirection;
 	
 	float gravity;
 	float friction;
 
+	// Max speed we can reach every frame
 	float maxSpeedx;
 	float maxSpeedy;
 	float maxSpeedz;
 
 	STATE_TYPE charstate;
 
-	Ogre::AxisAlignedBox mAABBox;
+	// Sound for the jump animation
 	irrklang::ISoundSource* jumpSFX;
 };
 

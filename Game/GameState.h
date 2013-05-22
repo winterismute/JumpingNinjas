@@ -13,6 +13,12 @@
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
+/*
+	This file is the heart of the serialization: it includes actually more than one class.
+	Each state class seizes the attributes needed to save and restore the corresponding object.
+	boost archives are used for actual serialization
+*/
+
 class PlayerState
 {
 public:
@@ -70,7 +76,6 @@ private:
         ar & py;
 		ar & pz;
 		ar & name;
-		//ar & myStringPointer;
     }
 
 };
@@ -121,9 +126,7 @@ protected:
 
 private:
 	friend class boost::serialization::access;
-    // When the class Archive corresponds to an output archive, the
-    // & operator is defined similar to <<.  Likewise, when the class Archive
-    // is a type of input archive the & operator is defined similar to >>.
+
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
     {
@@ -200,9 +203,7 @@ protected:
 
 private:
 	friend class boost::serialization::access;
-    // When the class Archive corresponds to an output archive, the
-    // & operator is defined similar to <<.  Likewise, when the class Archive
-    // is a type of input archive the & operator is defined similar to >>.
+
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version)
     {
@@ -213,11 +214,8 @@ private:
 		ar & scoreVector;
 		ar & levelwidth;
 		ar & levelheight;
-		//ar & myString;
-		//ar & myStringPointer;
     }
 
 };
-
 
 #endif

@@ -17,10 +17,12 @@ template<> Game* Ogre::Singleton<Game>::ms_Singleton = 0;
 //template<> Game& Ogre::Singleton<Game>::getSingleton() =0;
 //template<> Game* Ogre::Singleton<Game>::getSingletonPtr() =0;
 
-Game& Game::getSingleton(){
+Game& Game::getSingleton()
+{
 	return *ms_Singleton;
 };
-Game* Game::getSingletonPtr(){
+Game* Game::getSingletonPtr()
+{
 	return ms_Singleton;
 };
 
@@ -61,7 +63,6 @@ Game::~Game()
 		GameCollisionHandler = NULL;
 	}
 	delete OgreFW::getSingletonPtr();
-	// THERE SHOULD BE WAY MORE THINGS
 }
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
@@ -78,7 +79,7 @@ void Game::startGame()
 	//if(!OgreFW::getSingletonPtr()->initOgre("Lapilles sautillant", NULL, NULL))
 		return;
 
-	// VERY IMPORTANT: THE EFFECTSFACTORY NEEDS
+	// VERY IMPORTANT: THE EFFECTSFACTORY NEEDS IT
 	new EffectsFactory();
 
 	m_bShutdown = false;
@@ -398,6 +399,7 @@ void Game::CheckAndRespawnPlayers()
 
 void Game::checkAndSyncScore()
 {
+	// The function updates the scores displayed by the GUI
 	std::vector<RenderableChar*> mychars = GetCharacters();
 	std::string ns;
 	for (int i=0; i < mychars.size(); i++ ) {
@@ -412,20 +414,9 @@ void Game::checkAndSyncScore()
 		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "T")->setText("");
 		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "S")->setText("");
 	}
-
-	/*
-	for (int i=0; i < local_players.size(); i++) {
-		CEGUI::Window* myw = NULL;
-		//std::cout << "Player: " << i << "  has score: " << ScoreManager::getSingletonPtr()->getScore(local_players[i]->GetName()) << std::endl;
-		myw	= OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("ROOTWindow/" + local_players[i]->GetName() + "/Score");
-		if (myw != NULL) {
-			myw->setText(boost::lexical_cast<std::string>(ScoreManager::getSingletonPtr()->getScore(local_players[i]->GetName())));
-			//std::cout << "Here I am" << std::endl;
-		}
-	}
-	*/
 }
 
+// Activated by the button in the GUI, prepares a Server
 bool Game::setupServerGame(const CEGUI::EventArgs& e)
 {
 	if (Session::threading == false) {
@@ -441,7 +432,7 @@ bool Game::setupServerGame(const CEGUI::EventArgs& e)
 	return true;
 }
 	
-
+// Activated by the button in the GUI, prepares a Client
 bool Game::setupClientGame(const CEGUI::EventArgs& e)
 {
 	if (Session::threading == false) {
@@ -457,6 +448,7 @@ bool Game::setupClientGame(const CEGUI::EventArgs& e)
 	return true;
 }
 
+// Activated by the button in the GUI, prepares a Local Game
 bool Game::setupLocalGame(const CEGUI::EventArgs& e)
 {
 	// Let's parse the number of players
@@ -480,6 +472,7 @@ bool Game::setupLocalGame(const CEGUI::EventArgs& e)
 	return true;
 }
 
+// After any kind of game is prepared, we have to setup the GUI
 void Game::setupGUI()
 {	
 	int nplayers = local_players.size();
@@ -497,34 +490,9 @@ void Game::setupGUI()
 	// Reset the gui
 	for (int i=0; i < 4; i++) {
 		ns = boost::lexical_cast<std::string>(i+1);
-		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "T")->setText("Palyer");
-		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "S")->setText("0");
+		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "T")->setText("");
+		OgreFW::getSingletonPtr()->mGUIRootWindow->getChild("Root/P" + ns + "S")->setText("");
 	}
-
-	/*
-	// Now, create a new one
-	OgreFW::getSingletonPtr()->mGUIRootWindow = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","ROOTWindow" );
-	OgreFW::getSingletonPtr()->mGUIRootWindow->setPosition(CEGUI::UVector2(CEGUI::UDim(0,0),CEGUI::UDim(0,0)));
-	OgreFW::getSingletonPtr()->mGUIRootWindow->setSize(CEGUI::UVector2(CEGUI::UDim(0.1 * nplayers, 0.0), CEGUI::UDim(0.1, 0.0)));
-	//OgreFW::getSingletonPtr()->mGUIRootWindow->setProperty("Image","set:TaharezLook image:full_image");
-	
-	float xdim = 1.0 / nplayers;
-	// Create Sub window entities
-	for (int i=0; i < nplayers; i++) {
-		CEGUI::Window* subw = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticText", "ROOTWindow/" + local_players[i]->GetName() + "/Name");
-		subw->setPosition(CEGUI::UVector2(CEGUI::UDim(xdim * i , 0), CEGUI::UDim(0, 0)));
-		subw->setSize(CEGUI::UVector2(CEGUI::UDim(xdim * (i+1), 0), CEGUI::UDim(0.5, 0)));
-		subw->setText(local_players[i]->GetName());
-		OgreFW::getSingletonPtr()->mGUIRootWindow->addChildWindow(subw);
-		subw = CEGUI::WindowManager::getSingleton().createWindow("TaharezLook/StaticText", "ROOTWindow/" + local_players[i]->GetName() + "/Score");
-		//subw->setText(boost::lexical_cast<std::string>(0));
-		subw->setPosition(CEGUI::UVector2(CEGUI::UDim(xdim * i, 0), CEGUI::UDim(0.5, 0)));
-		subw->setSize(CEGUI::UVector2(CEGUI::UDim(xdim * (i+1), 0), CEGUI::UDim(1.0, 0)));
-		subw->setText("Points");
-		OgreFW::getSingletonPtr()->mGUIRootWindow->addChildWindow(subw);
-	}
-	CEGUI::System::getSingleton().setGUISheet(OgreFW::getSingletonPtr()->mGUIRootWindow);
-	*/
 }
 
 void Game::runGame()
@@ -608,9 +576,9 @@ void Game::update(float dt)
 	CheckAndRespawnPlayers();
 	
 	//if(m_movementKeysPressed)
-	checkMovementKeys();
+	if (currentGameStage != MAIN_MENU_STATE) checkMovementKeys();
 
-	//Update the camera, so it moves with the player
+	//Update the camera, so that it moves with the player
 	//Ogre::Vector3 cameraPos = getLocalPlayer()->getWorldPosition();
 	//cameraPos.z += 20;
 	//cameraPos.y += 20;
@@ -689,28 +657,6 @@ bool Game::keyReleased(const OIS::KeyEvent &keyEventRef)
 		OgreFW::getSingletonPtr()->keyReleased(keyEventRef);
 	}
 
-	// Reset velocity only if the character is actually moving in the corresponding direction 
-	/*
-	switch (keyEventRef.key) {
-		// HANDLING input release of PLAYER 1
-		case OIS::KC_J:
-			if(!OgreFW::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_L))
-				m_movementKeysPressed = false;
-			break;
-		case OIS::KC_L:
-			if(!OgreFW::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_J))
-				m_movementKeysPressed = false;
-			break;
-		//case OIS::KC_K:
-		//	if (getLocalPlayer()->getVelocity().z > 0)
-		//		getLocalPlayer()->resetVelZ();
-		//	break;
-		//case OIS::KC_I:
-		//	if (getLocalPlayer()->getVelocity().z < 0)
-		//		getLocalPlayer()->resetVelZ();
-		//	break;
-	}
-	*/
 	return true;
 }
 
@@ -765,6 +711,7 @@ void Game::RemoveCharacter( std::string name)
 	}
 }
 
+// Used to check UNBUFFERED input
 void Game::checkMovementKeys()
 {
 	if (OgreFW::getSingletonPtr()->m_pKeyboard->isKeyDown(OIS::KC_J)) {

@@ -12,31 +12,9 @@ template<> OgreFW* Ogre::Singleton<OgreFW>::ms_Singleton = 0;
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
-OgreFW::OgreFW()
+OgreFW::OgreFW() : m_MoveSpeed(0.1f), m_RotateSpeed(0.3f), m_bShutDownOgre(false), m_iNumScreenShots(NULL), m_pRoot(NULL), m_pSceneMgr(NULL), m_pRenderWnd(NULL), m_pCamera(NULL), m_pViewport(NULL), m_pLog(NULL), m_pTimer(NULL), m_pInputMgr(NULL), m_pKeyboard(NULL), m_pMouse(NULL), mGUIRootWindow(NULL)
 {
-    m_MoveSpeed			= 0.1f;
-    m_RotateSpeed		= 0.3f;
-
-    m_bShutDownOgre		= false;
-    m_iNumScreenShots	= 0;
-
-    m_pRoot				= 0;
-    m_pSceneMgr			= 0;
-    m_pRenderWnd		= 0;
-    m_pCamera			= 0;
-    m_pViewport			= 0;
-    m_pLog				= 0;
-    m_pTimer			= 0;
-
-    m_pInputMgr			= 0;
-    m_pKeyboard			= 0;
-    m_pMouse			= 0;
-
-	mGUIRootWindow = NULL;
-
-    //m_pTrayMgr          = 0;
-    m_FrameEvent        = Ogre::FrameEvent();
-
+    m_FrameEvent = Ogre::FrameEvent();
 	m_PluginsCfg = Ogre::StringUtil::BLANK;
 }
 

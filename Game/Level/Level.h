@@ -9,25 +9,40 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <cassert>
 
 #include <OgreSceneManager.h>
 #include <OgreSceneNode.h>
 
 #include "LevelBlock.h"
+
 #include "../GameState.h"
 
 //class LevelFactory;
+
+// The class represents a Level renderable in the game. Basically a Level is a collection of LevelBlocks in which the characters move
 
 class Level
 {
 public:
 
+	// Enum for distinguising the type of blocks
 	enum LevelBlockMaterial{ ICE, BRICK };
-	Level(std::string& filepath, Ogre::SceneManager* smn);
+
+	// The first constructor builds a level by parsing a text file
+	Level(std::string& filepath, Ogre::SceneManager* smn, float dim);
+	
+	// This constructor builds a lvel from a GameState objects - Used to reastore a serialized game
 	Level(GameState gs, Ogre::SceneManager* smn);
-	Level(Ogre::SceneManager* smn);
+	
+	// This constructor builds a "Random" Level
+	// a random level is simply a prederined layout (depending on the int)
+	//--> We had to no time to implement a real procedural lavel generator
+	Level(int layout, Ogre::SceneManager* smn, float dim);
+	
 	virtual ~Level();
 
+	// Methods are mainly the standard getters
 	inline int getWidth()
 	{
 		return width;
@@ -72,18 +87,15 @@ protected:
 	int width;
 	int height;
 	float obj_side;
-	//array_type data;
-	//array_type* data;
-	//std::vector <std::vector<int>> data;
-	//std::vector<std::vector<LevelBlock*>> data;
+
+	// Thi vector stores the blocks
 	std::vector<LevelBlock*> data;
 
+	// SPAWN_POSITION: we started to implement a mechanism such that each level could have some kind of pre-defined spawning position
+	// for characters (max 4), which could be used. But, then we decided not use them: characters are spawned randomly in the level as in the 2D dos version
 	std::vector<Ogre::Vector3> player_spawn_positions;
 
-	//Ogre::SceneNode* mLevelNode;
 	Ogre::SceneManager* mSceneMgr;
-
 };
-
 
 #endif

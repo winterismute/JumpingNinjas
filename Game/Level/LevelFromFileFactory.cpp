@@ -7,7 +7,7 @@
 
 LevelFromFileFactory::LevelFromFileFactory(Ogre::SceneManager* smn) : mSceneMgr(smn), levelno(1)
 {
-
+	// First level is level1 => levelno = 1
 }
 
 LevelFromFileFactory::~LevelFromFileFactory()
@@ -15,11 +15,12 @@ LevelFromFileFactory::~LevelFromFileFactory()
 
 }
 
-Level* LevelFromFileFactory::create()
+Level* LevelFromFileFactory::create(float dim)
 {
 	std::string levelname = "level";
 	bool found = false;
 	std::string name;
+	// The creation is smart enough to skip "holes" between level numbers 
 	do {
 		name = levelname + boost::lexical_cast<std::string>(levelno) + ".txt";
 		std::ifstream my_file(name);
@@ -35,5 +36,6 @@ Level* LevelFromFileFactory::create()
 	}
 	else std::cout << "Opening level file: " << name << std::endl;
 
-	return (new Level(name, mSceneMgr));
+	// after having updated levelno, we create
+	return (new Level(name, mSceneMgr, dim));
 }

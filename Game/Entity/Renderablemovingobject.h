@@ -4,7 +4,10 @@
 #include "RenderableObject.h"
 #include "CollisionObject.h"
 
-//Represents an object that is both renderable and can move: e.g. the player
+/*
+	A moving object has attributes like velocities etc.
+*/
+
 class RenderableMovingObject 
 	: public RenderableObject, public CollisionObject
 {
@@ -76,7 +79,6 @@ protected:
 	float speedx;
 	float speedy;
 	float speedz;
-
 
 };
 

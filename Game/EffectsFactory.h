@@ -10,6 +10,10 @@
 
 #include "../Framework/OgreFW.h"
 
+/*
+	EffectsFactory is a SingletonED class that delivers effects, mainly the sun and blood.
+*/
+
 class EffectsFactory: public Ogre::Singleton<EffectsFactory>
 {
 public:
@@ -31,16 +35,8 @@ public:
 		my_sn.push_back(sn);
 	};
 
+	// Blood generation is made in an efficient way: only one particle system entity is allocated by this class, then when requested, the particle system is moved to the right place and blood is emitted.
 	void requestSpillBlood(float x, float y, float z);
-	/*
-	{
-		Ogre::ParticleSystem* ps = OgreFW::getSingletonPtr()->m_pSceneMgr->createParticleSystem("blood" + boost::lexical_cast<std::string>(my_blood_ps.size() + 1), "Mine/Blood");  // create fountain 1
-		ps->setEmitting(false);
-		// attach the fountain to a child node of the pivot at a distance and angle
-		Ogre::SceneNode* mFountainPivot = OgreFW::getSingletonPtr()->m_pSceneMgr->getRootSceneNode()->createChildSceneNode("fountainParticle", Ogre::Vector3(40, 10, -20), Ogre::Quaternion(Ogre::Degree(20), Ogre::Vector3::UNIT_Z));
-		mFountainPivot->attachObject(ps);
-	}
-	*/
 
 protected:
 	//EffectsFactory* ms_Singleton;

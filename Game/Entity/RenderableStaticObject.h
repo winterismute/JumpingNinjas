@@ -4,7 +4,10 @@
 #include "RenderableObject.h"
 #include "CollisionObject.h"
 
-//Static object in a level, e.g. a levelblock
+/*
+	Static object in a level, e.g. a levelblock.
+	Distinguish can be useful when we have to update, or in the collision detection phase
+*/
 class RenderableStaticObject : public RenderableObject, public CollisionObject
 {
 public:

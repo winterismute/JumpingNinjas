@@ -39,11 +39,19 @@ class Session;
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
+/*
+	THE main Game class. It's a singleton that requires all the other singletons, initializes them, and manage the game itself.
+	It can be important to notice that Game uses both buffered (for checking one shoot events like saving and jump) and unbuffered (for player movements) input.
+	In anyway, input is also passed "below" to the OgreFW layer for additional processing.
+	In code, local_players refers to characters controlled by the keyboard, and characters_vector to networked players.
+	Synchronization is achieved using events, which are fired under various conditions from the games and propagated.
+*/
+
 class Game : public OIS::KeyListener, public Ogre::RenderTargetListener, Ogre::Singleton<Game>, NetworkEventListener
 
 {
 public:
-
+	// Enum used to distinguish the state of the game
 	enum game_stage {MAIN_MENU_STATE, PLAYING_STATE};
 
 	Game();
@@ -82,14 +90,17 @@ public:
 		return currentGameStage;
 	}
 
-	inline bool GetIsNetworkGame(){
+	inline bool GetIsNetworkGame()
+	{
 		return isNetworkGame;
 	}
 
-	inline void SetIsNetworkGame(bool val){
+	inline void SetIsNetworkGame(bool val)
+	{
 		isNetworkGame = val;
 	}
-	//Template method for deleting vector of elements
+
+	// Template method for deleting vector of elements
 	template <class C> void FreeClear( C & cntr ) {
 		for ( typename C::iterator it = cntr.begin(); 
 			it != cntr.end(); ++it ) {

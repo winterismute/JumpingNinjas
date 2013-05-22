@@ -8,7 +8,10 @@
 #include <OgreAny.h>
 #include <OgreMovableObject.h>
 
-//This class represents a level-block in the system
+/*
+	LevelBlock class represents a renderable static level object. Currently, level objects are created only as cubes.
+*/
+
 class LevelBlock : public RenderableStaticObject
 {
 public:
@@ -21,17 +24,19 @@ public:
 		return myEntity->getWorldBoundingBox(true);
 	}
 
+	// Extension is the dimension of the edge
 	inline float getExtension()
 	{
 		return extension;
 	}
 
-	//Returns the level material of the current block
-	inline LevelMaterial<> getLevelMaterial(){
+	// Returns the level material of the current block
+	inline LevelMaterial<> getLevelMaterial()
+	{
 		return material;
 	}
 	
-
+	// COLLISION METHODS - they have to be defined
 	inline virtual void onCollisionFromAbove(CollisionObject* other)
 	{
 
@@ -52,11 +57,9 @@ public:
 
 	}
 
-
 protected:
-	Ogre::AxisAlignedBox mAABBox;
-	float extension;
-	LevelMaterial<CollisionMaterial> material;
+	float extension; // Dimension
+	LevelMaterial<CollisionMaterial> material; // Block Material
 
 
 };

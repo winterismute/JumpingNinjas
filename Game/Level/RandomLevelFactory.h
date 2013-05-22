@@ -13,8 +13,15 @@ public:
 	RandomLevelFactory(Ogre::SceneManager* smn);
 	virtual ~RandomLevelFactory();
 
-	Level* create() {
-		return new Level(mSceneMgr);
+	Level* create(float dim = 10.0f)
+	{
+		int nl;
+		do {
+			nl = (rand() % 4) +1;
+		}
+		while (nl == myLayout);
+		myLayout = nl;
+		return new Level(myLayout, mSceneMgr, dim);
 	}
 
 	inline Level* createLevelFromSavedGame(GameState gs)
@@ -24,7 +31,7 @@ public:
 
 protected:
 	Ogre::SceneManager* mSceneMgr;
-
+	int myLayout;
 };
 
 #endif

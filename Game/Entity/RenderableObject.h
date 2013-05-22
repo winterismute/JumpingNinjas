@@ -4,12 +4,13 @@
 #include <OgreEntity.h>
 #include <OgreSceneNode.h>
 
-//Defines an object that is able to be rendered ingame
+/*
+	Base Class for Objects of the game. Incapsulates all the ogre things.
+*/
+
 class RenderableObject
 {
 public:
-
-	//enum object_type { OBJECT_BASE, OBJECT_PLAYER, OBJECT_BLOCK };
 
 	RenderableObject(float posx, float posy, float posz, Ogre::SceneManager* smn);
 	RenderableObject(Ogre::Vector3 pos, Ogre::SceneManager* smn);

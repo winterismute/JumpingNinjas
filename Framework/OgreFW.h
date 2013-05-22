@@ -27,11 +27,15 @@
 #include <CEGUI.h>
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 
+/*
+	OgreFW class incapsulates many of the features of an Ogre application, included initialization.
+	The idea is to keep all the ogre rendering oprations kind of hidden in the layer.
+	The 
+*/
 
 //|||||||||||||||||||||||||||||||||||||||||||||||
 
 class OgreFW : public Ogre::Singleton<OgreFW>, OIS::KeyListener, OIS::MouseListener
-	//, OgreBites::SdkTrayListener
 {
 public:
 	OgreFW();

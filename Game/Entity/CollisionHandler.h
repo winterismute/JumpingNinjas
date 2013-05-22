@@ -12,7 +12,10 @@
 #include "../Level/LevelBlock.h"
 #include "../Entity/Player/RenderableChar.h"
 
-//Collision handler class, handles in game collisions
+/*
+	Collision handler class, handles in game collisions between CollisionObjects.
+	We just need to add the ingame objects and to update collisions and that's it.
+*/
 class CollisionHandler
 {
 public:
@@ -27,7 +30,6 @@ public:
 	inline void addNewObject(RenderableStaticObject* instatic)
 	{
 		static_collision_objects.push_back(instatic);
-		//static_objects_to_add.push_back(instatic);
 	}
 
 	//Add a whole vector the the collision system
@@ -42,7 +44,6 @@ public:
 	inline void addNewObject(RenderableMovingObject* inmoving)
 	{
 		moving_collision_objects.push_back(inmoving);
-		//moving_objects_to_add.push_back(inmoving);
 	}
 
 	//Add a new vector of movable objects to the system
@@ -62,9 +63,7 @@ public:
 				ite = static_collision_objects.erase(ite);
 			}
 			else ++ite;
-			//static_collision_objects.push_back(*ite);
 		}
-		//static_objects_to_remove.push_back(instatic);
 	}
 
 	//Remove a moving object
@@ -77,7 +76,6 @@ public:
 			}
 			else ++ite;
 		}
-		//static_objects_to_remove.push_back(inmoving);
 	}
 
 	inline void clearAllMovingObjects()
